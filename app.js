@@ -8,8 +8,6 @@ class Note {
 
 class App {
   constructor() {
-    // localStorage.setItem('test', JSON.stringify(['123']));
-    // console.log(JSON.parse(localStorage.getItem('test')));
     this.notes = JSON.parse(localStorage.getItem("notes")) || [];
     this.selectedNoteId = "";
     this.miniSidebar = true;
@@ -30,6 +28,11 @@ class App {
 
     this.addEventListeners();
     this.displayNotes();
+  }
+
+  // Custom unique ID generator
+  generateId() {
+    return "note-" + Date.now() + "-" + Math.floor(Math.random() * 1000);
   }
 
   addEventListeners() {
@@ -129,7 +132,7 @@ class App {
 
   addNote({ title, text }) {
     if (title !== "" || text !== "") {
-      const newNote = new Note(cuid(), title, text);
+      const newNote = new Note(this.generateId(), title, text);
       this.notes = [...this.notes, newNote];
       this.render();
     }
